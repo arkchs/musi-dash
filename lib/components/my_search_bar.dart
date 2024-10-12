@@ -7,9 +7,10 @@ class MySearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SearchBar(
+      constraints: const BoxConstraints(maxHeight: 50),
       elevation: const MaterialStatePropertyAll(0.0),
       leading: const Icon(Icons.search_outlined),
-      hintText: "Search",
+      // hintText: "Search",
       padding: const MaterialStatePropertyAll(EdgeInsets.all(8.0)),
       trailing: [
         IconButton(

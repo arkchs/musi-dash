@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:musi/constants/theme/text_theme.dart';
+import 'package:musi/constants/theme/theme_provider.dart';
 import 'package:musi/models/songs_provider.dart';
 import 'package:musi/pages/songs_page.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +26,8 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   PlayerState? _playerState;
   Duration? _duration;
   Duration? _position;
+  // BoxShape shape = BoxShape.rectangle;
+  BorderRadius? radius = BorderRadius.circular(20.0);
 
   StreamSubscription? _durationSubscription;
   StreamSubscription? _positionSubscription;
@@ -70,27 +74,82 @@ class _PlayerWidgetState extends State<PlayerWidget> {
     super.dispose();
   }
 
+  void _skipToPrevious() {
+    Navigator.pop(context);
+    int index = widget.index ?? 0;
+    int numberOfSongs =
+        Provider.of<SongsProvider>(context, listen: false).songs.length;
+    if (index == 0) {
+      index = numberOfSongs - 1;
+    } else {
+      index = index - 1;
+    }
+    slideRouteBuilderAnimation(index, -1.0, 0.0);
+  }
+
+  void slideRouteBuilderAnimation(int index, double x, double y) {
+    Navigator.push(
+        context,
+        PageRouteBuilder(
+            transitionDuration: const Duration(milliseconds: 500),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              Offset begin = Offset(x, y);
+              Offset end = Offset.zero;
+              final Tween<Offset> tween = Tween(begin: begin, end: end);
+              final Animation<Offset> offsetAnimation = animation.drive(tween);
+
+              return SlideTransition(
+                position: offsetAnimation,
+                child: child,
+              );
+            },
+            pageBuilder: ((context, animation, secondaryAnimation) =>
+                SongsPage(index: index))));
+  }
+
+  void _skipToNext() {
+    Navigator.pop(context);
+    int index = widget.index ?? 0;
+    int numberOfSongs =
+        Provider.of<SongsProvider>(context, listen: false).songs.length;
+    if (index == numberOfSongs - 1) {
+      index = 0;
+    } else {
+      index = index + 1;
+    }
+    slideRouteBuilderAnimation(index, 1.0, 0.0);
+  }
+
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).primaryColor;
+    final iconColor = Provider.of<ThemeProvider>(context).isDarkMode
+        ? Colors.white70
+        : Colors.black;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Slider(
-          onChanged: (value) {
-            final duration = _duration;
-            if (duration == null) {
-              return;
-            }
-            final position = value * duration.inMilliseconds;
-            player.seek(Duration(milliseconds: position.round()));
-          },
-          value: (_position != null &&
-                  _duration != null &&
-                  _position!.inMilliseconds > 0 &&
-                  _position!.inMilliseconds < _duration!.inMilliseconds)
-              ? _position!.inMilliseconds / _duration!.inMilliseconds
-              : 0.0,
+        SliderTheme(
+          data: SliderTheme.of(context).copyWith(
+            thumbShape: const RoundSliderOverlayShape(),
+          ),
+          child: Slider(
+            onChanged: (value) {
+              final duration = _duration;
+              if (duration == null) {
+                return;
+              }
+              final position = value * duration.inMilliseconds;
+              player.seek(Duration(milliseconds: position.round()));
+            },
+            value: (_position != null &&
+                    _duration != null &&
+                    _position!.inMilliseconds > 0 &&
+                    _position!.inMilliseconds < _duration!.inMilliseconds)
+                ? _position!.inMilliseconds / _duration!.inMilliseconds
+                : 0.0,
+          ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -101,7 +160,10 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                   : _duration != null
                       ? _durationText
                       : '',
-              style: const TextStyle(fontSize: 16.0),
+              style: Theme.of(context)
+                  .textTheme
+                  .mediumHeading
+                  .copyWith(color: iconColor),
             ),
             Text(
               _position != null
@@ -109,7 +171,10 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                   : _duration != null
                       ? _durationText
                       : '',
-              style: const TextStyle(fontSize: 16.0),
+              style: Theme.of(context)
+                  .textTheme
+                  .mediumHeading
+                  .copyWith(color: iconColor),
             ),
           ],
         ),
@@ -118,62 +183,32 @@ class _PlayerWidgetState extends State<PlayerWidget> {
           children: [
             IconButton(
               key: const Key('play_previous'),
-              onPressed: () {
-                Navigator.pop(context);
-                int index = widget.index ?? 0;
-                int numberOfSongs =
-                    Provider.of<SongsProvider>(context, listen: false)
-                        .songs
-                        .length;
-                if (index == 0) {
-                  index = numberOfSongs - 1;
-                } else {
-                  index = index - 1;
-                }
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SongsPage(index: index)));
-              },
+              onPressed: _skipToPrevious,
               iconSize: 48.0,
-              icon: const Icon(Icons.skip_previous),
+              icon: Icon(Icons.skip_previous, color: iconColor),
               color: color,
             ),
-            Container(
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 1000),
+              curve: Curves.easeIn,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  color: Theme.of(context).colorScheme.inversePrimary),
+                  borderRadius: radius,
+                  color: Theme.of(context).colorScheme.secondary),
               child: IconButton(
                 key: const Key('play_button'),
                 onPressed: _isPlaying ? _pause : _play,
                 iconSize: 48.0,
                 icon: _isPlaying
-                    ? const Icon(Icons.pause)
-                    : const Icon(Icons.play_arrow),
+                    ? Icon(Icons.pause, color: iconColor)
+                    : Icon(Icons.play_arrow, color: iconColor),
                 color: color,
               ),
             ),
             IconButton(
               key: const Key('play_next'),
-              onPressed: () {
-                Navigator.pop(context);
-                int index = widget.index ?? 0;
-                int numberOfSongs =
-                    Provider.of<SongsProvider>(context, listen: false)
-                        .songs
-                        .length;
-                if (index == numberOfSongs - 1) {
-                  index = 0;
-                } else {
-                  index = index + 1;
-                }
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SongsPage(index: index)));
-              },
+              onPressed: _skipToNext,
               iconSize: 48.0,
-              icon: const Icon(Icons.skip_next),
+              icon: Icon(Icons.skip_next, color: iconColor),
               color: color,
             ),
           ],
@@ -207,11 +242,18 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   }
 
   Future<void> _play() async {
+    setState(() {
+      radius = BorderRadius.circular(15.0);
+    });
+
     await player.resume();
     setState(() => _playerState = PlayerState.playing);
   }
 
   Future<void> _pause() async {
+    setState(() {
+      radius = BorderRadius.circular(100.0);
+    });
     await player.pause();
     setState(() => _playerState = PlayerState.paused);
   }

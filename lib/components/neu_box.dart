@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:musi/constants/theme/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class NeuBox extends StatelessWidget {
   final Widget? child;
@@ -18,19 +20,23 @@ class NeuBox extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-          color: color ?? Colors.white,
+          color: color ?? (Colors.white),
           borderRadius: BorderRadius.circular(20.0),
           shape: BoxShape.rectangle,
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.shade600,
+              color: Provider.of<ThemeProvider>(context).isDarkMode
+                  ? Colors.black87
+                  : Colors.grey.shade500,
               blurRadius: 20.0,
               offset: const Offset(4, 4),
             ),
-            const BoxShadow(
-              color: Colors.white,
+            BoxShadow(
+              color: Provider.of<ThemeProvider>(context).isDarkMode
+                  ? Colors.grey.shade900
+                  : Colors.white,
               blurRadius: 20.0,
-              offset: Offset(-4, -4),
+              offset: const Offset(-4, -4),
             ),
           ]),
       child: child,
