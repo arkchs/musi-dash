@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:musi/components/utility_options.dart';
 import 'package:musi/constants/theme/text_theme.dart';
 import 'package:musi/constants/theme/theme_provider.dart';
 import 'package:musi/models/songs_provider.dart';
@@ -27,7 +29,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   Duration? _duration;
   Duration? _position;
   // BoxShape shape = BoxShape.rectangle;
-  BorderRadius? radius = BorderRadius.circular(20.0);
+  BorderRadius radius = BorderRadius.circular(20.0);
 
   StreamSubscription? _durationSubscription;
   StreamSubscription? _positionSubscription;
@@ -84,7 +86,9 @@ class _PlayerWidgetState extends State<PlayerWidget> {
     } else {
       index = index - 1;
     }
-    slideRouteBuilderAnimation(index, -1.0, 0.0);
+    Navigator.push((context), MaterialPageRoute(builder: (context) {
+      return SongsPage(index: index);
+    }));
   }
 
   void slideRouteBuilderAnimation(int index, double x, double y) {
@@ -121,6 +125,8 @@ class _PlayerWidgetState extends State<PlayerWidget> {
     slideRouteBuilderAnimation(index, 1.0, 0.0);
   }
 
+  void _repeatCurrent() {}
+
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).primaryColor;
@@ -151,67 +157,48 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                 : 0.0,
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              _position != null
-                  ? '${_positionText.split(':')[1]}:${_positionText.split(':')[2]}'
-                  : _duration != null
-                      ? _durationText
-                      : '',
-              style: Theme.of(context)
-                  .textTheme
-                  .mediumHeading
-                  .copyWith(color: iconColor),
-            ),
-            Text(
-              _position != null
-                  ? '${_durationText.split(':')[1]}:${_durationText.split(':')[2]}'
-                  : _duration != null
-                      ? _durationText
-                      : '',
-              style: Theme.of(context)
-                  .textTheme
-                  .mediumHeading
-                  .copyWith(color: iconColor),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              key: const Key('play_previous'),
-              onPressed: _skipToPrevious,
-              iconSize: 48.0,
-              icon: Icon(Icons.skip_previous, color: iconColor),
-              color: color,
-            ),
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 1000),
-              curve: Curves.easeIn,
-              decoration: BoxDecoration(
-                  borderRadius: radius,
-                  color: Theme.of(context).colorScheme.secondary),
-              child: IconButton(
-                key: const Key('play_button'),
-                onPressed: _isPlaying ? _pause : _play,
-                iconSize: 48.0,
-                icon: _isPlaying
-                    ? Icon(Icons.pause, color: iconColor)
-                    : Icon(Icons.play_arrow, color: iconColor),
-                color: color,
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                _position != null
+                    ? '${_positionText.split(':')[1]}:${_positionText.split(':')[2]}'
+                    : _duration != null
+                        ? _durationText
+                        : '',
+                style: Theme.of(context)
+                    .textTheme
+                    .smallHeadings
+                    .copyWith(color: iconColor),
               ),
-            ),
-            IconButton(
-              key: const Key('play_next'),
-              onPressed: _skipToNext,
-              iconSize: 48.0,
-              icon: Icon(Icons.skip_next, color: iconColor),
-              color: color,
-            ),
-          ],
+              Text(
+                _position != null
+                    ? '${_durationText.split(':')[1]}:${_durationText.split(':')[2]}'
+                    : _duration != null
+                        ? _durationText
+                        : '',
+                style: Theme.of(context)
+                    .textTheme
+                    .smallHeadings
+                    .copyWith(color: iconColor),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: CustomUtilityOptions(
+            radius: radius,
+            color: color,
+            iconColor: iconColor,
+            isPlaying: _isPlaying,
+            onPlay: _play,
+            onPause: _pause,
+            onSkipToNext: _skipToNext,
+            onSkipToPrevious: _skipToPrevious,
+          ),
         ),
       ],
     );

@@ -81,6 +81,10 @@ class SongsProvider extends ChangeNotifier {
   //Getters
   List<Songs> get songs => _songs;
   int? get currentSongIndex => _currentSongIndex;
+  set currentSongIndex(int? newIndex) {
+    _currentSongIndex = newIndex;
+    notifyListeners();
+  }
   // bool get isPlaying => _isPlaying;
   // Duration get currentDuration => _currentDuration;
   // Duration get totalDuration => _totalDuration;

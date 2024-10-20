@@ -44,52 +44,64 @@ class _SongsPageState extends State<SongsPage> {
         ? Colors.white70
         : Colors.black;
     return Scaffold(
-      body: Consumer<SongsProvider>(
-        builder: (context, value, child) => Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onVerticalDragUpdate: (details) {
-                if (details.delta.dy > 0) {
-                  Navigator.pop(context);
-                }
-              },
-              child: NeuBox(
-                color: Theme.of(context).colorScheme.background,
-                height: 300.0,
-                width: 300.0,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: Hero(
-                    tag: 'cover-image${widget.index}',
-                    child: Image.asset(
-                      value.songs[widget.index].songImagePath.toString(),
-                      fit: BoxFit.cover,
+      body: CustomScrollView(
+        scrollDirection: Axis.vertical,
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Consumer<SongsProvider>(
+              builder: (context, value, child) => Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    GestureDetector(
+                      onVerticalDragUpdate: (details) {
+                        if (details.delta.dy > 0) {
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: NeuBox(
+                        color: Theme.of(context).colorScheme.background,
+                        height: 300.0,
+                        width: 300.0,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20.0),
+                          child: Hero(
+                            tag: 'cover-image${widget.index}',
+                            child: Image.asset(
+                              value.songs[widget.index].songImagePath
+                                  .toString(),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                    ),
+                    Text(
+                      value.songs[widget.index].songName.toString(),
+                      style: Theme.of(context).textTheme.mainHeading,
+                    ),
+                    Text(
+                      value.songs[widget.index].songArtist.toString(),
+                      style: Theme.of(context)
+                          .textTheme
+                          .mediumHeading
+                          .copyWith(color: iconColor),
+                    ),
+                    PlayerWidget(
+                      player: audioPlayer,
+                      index: widget.index,
+                    )
+                  ],
                 ),
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.1,
-            ),
-            Text(
-              value.songs[widget.index].songName.toString(),
-              style: Theme.of(context).textTheme.mainHeading,
-            ),
-            Text(
-              value.songs[widget.index].songArtist.toString(),
-              style: Theme.of(context)
-                  .textTheme
-                  .mediumHeading
-                  .copyWith(color: iconColor),
-            ),
-            PlayerWidget(
-              player: audioPlayer,
-              index: widget.index,
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

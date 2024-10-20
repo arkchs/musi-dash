@@ -20,15 +20,15 @@ class SettingsPage extends StatelessWidget {
             decoration:
                 BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
             child: ListTile(
-              title: const Text("Dark Mode"),
-              trailing: CupertinoSwitch(
+              title: const Text("Appearance"),
+              leading: const Icon(Icons.color_lens),
+              trailing: Switch(
+                activeColor: Colors.grey,
                 value: Provider.of<ThemeProvider>(context, listen: false)
                     .isDarkMode,
                 onChanged: (value) =>
                     Provider.of<ThemeProvider>(context, listen: false)
                         .toggleTheme(),
-                // thumbColor: MaterialStatePropertyAll(
-                //     Theme.of(context).colorScheme.secondary),
               ),
             ),
           ),
@@ -36,21 +36,24 @@ class SettingsPage extends StatelessWidget {
             decoration:
                 BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
             child: const ListTile(
-              title: Text("Dark Mode"),
+              title: Text("Content"),
+              leading: Icon(Icons.account_box),
             ),
           ),
           Container(
             decoration:
                 BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
             child: const ListTile(
-              title: Text("Dark Mode"),
+              title: Text("About"),
+              leading: Icon(Icons.info),
             ),
           ),
           Container(
             decoration:
                 BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
             child: const ListTile(
-              title: Text("Dark Mode"),
+              title: Text("Storage"),
+              leading: Icon(Icons.storage),
             ),
           ),
         ],
