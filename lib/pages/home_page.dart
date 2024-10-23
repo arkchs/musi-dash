@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:musi/components/library_list.dart';
 import 'package:musi/components/my_search_bar.dart';
 import 'package:musi/components/songs_lists.dart';
