@@ -5,6 +5,7 @@ import 'package:musi/constants/theme/theme_provider.dart';
 import 'package:musi/models/songs.dart';
 import 'package:musi/models/songs_provider.dart';
 import 'package:musi/pages/songs_page.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
 class SongsList extends StatefulWidget {
@@ -37,13 +38,21 @@ class _SongsListState extends State<SongsList> {
     );
   }
 
+  Future<PaletteColor?> _updatePaletteGenerator(image) async {
+    PaletteGenerator palette = await PaletteGenerator.fromImageProvider(
+      image,
+      maximumColorCount: 20,
+    );
+    return palette.dominantColor;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<SongsProvider>(
       builder: (context, value, child) {
         return PageView.builder(
             itemCount: 5,
-            controller: PageController(viewportFraction: 0.96),
+            controller: PageController(viewportFraction: 0.9),
             itemBuilder: (BuildContext context, int itemIndex) {
               int listLen = 6;
               List<Songs> song = [];
@@ -63,6 +72,11 @@ class _SongsListState extends State<SongsList> {
                         padding: const EdgeInsets.symmetric(vertical: 3.0),
                         child: ListTile(
                           onTap: () {
+                            _updatePaletteGenerator(
+                                    AssetImage(imagePath[index]))
+                                .then((PaletteColor? color) {
+                              if (color != null) {}
+                            });
                             _routeSongsPage(index);
                             value.currentSongIndex = index;
                           },

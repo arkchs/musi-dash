@@ -40,6 +40,7 @@ class _SongsPageState extends State<SongsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     final Color iconColor = Provider.of<ThemeProvider>(context).isDarkMode
         ? Colors.white70
         : Colors.black;
@@ -63,8 +64,8 @@ class _SongsPageState extends State<SongsPage> {
                       },
                       child: NeuBox(
                         color: Theme.of(context).colorScheme.background,
-                        height: 300.0,
-                        width: 300.0,
+                        height: size.aspectRatio * size.height * .6,
+                        width: (1 / size.aspectRatio) * size.width * .4,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20.0),
                           child: Hero(
@@ -79,7 +80,7 @@ class _SongsPageState extends State<SongsPage> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.1,
+                      height: size.height * 0.1,
                     ),
                     Text(
                       value.songs[widget.index].songName.toString(),

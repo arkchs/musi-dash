@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:musi/components/utility_options.dart';
 import 'package:musi/constants/theme/text_theme.dart';
 import 'package:musi/constants/theme/theme_provider.dart';
