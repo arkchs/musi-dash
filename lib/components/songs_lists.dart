@@ -109,7 +109,7 @@ class _SongsListState extends State<SongsList> {
                           leading: ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
                             child: Hero(
-                              tag: 'cover-image$index',
+                              tag: 'cover-image${index}',
                               child: Image.asset(
                                 imagePath[index],
                                 height: 50.0,

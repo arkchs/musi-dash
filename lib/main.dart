@@ -5,6 +5,8 @@ import 'package:musi/models/songs_provider.dart';
 import 'package:musi/pages/home_page.dart';
 import 'package:provider/provider.dart';
 
+/// TODO 1: Add the dynamic theme and color picker package now
+/// implement the logic
 void main() {
   runApp(MultiProvider(
     providers: [

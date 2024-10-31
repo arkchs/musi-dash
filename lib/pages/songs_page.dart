@@ -25,7 +25,11 @@ class _SongsPageState extends State<SongsPage> {
     audioPlayer.setReleaseMode(ReleaseMode.stop);
     // Start the player as soon as the app is displayed.
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await audioPlayer.setSource(AssetSource('songs/you_say_run.mp3'));
+      await audioPlayer.setSource(AssetSource(
+          Provider.of<SongsProvider>(context, listen: false)
+                  .songs[widget.index]
+                  .songPath ??
+              "songs/funked_up.mp3"));
       await audioPlayer.resume();
     });
   }
