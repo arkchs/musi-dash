@@ -72,13 +72,9 @@ class _SongsPageState extends State<SongsPage> {
                         width: (1 / size.aspectRatio) * size.width * .4,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20.0),
-                          child: Hero(
-                            tag: 'cover-image${widget.index}',
-                            child: Image.asset(
-                              value.songs[widget.index].songImagePath
-                                  .toString(),
-                              fit: BoxFit.cover,
-                            ),
+                          child: Image.asset(
+                            value.songs[widget.index].songImagePath.toString(),
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
