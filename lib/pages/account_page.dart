@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:musi/constants/theme/text_theme.dart';
 import 'package:musi/pages/login_page.dart';
-import 'package:musi/pages/register.dart';
+import 'package:musi/pages/register_page.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
@@ -15,12 +15,13 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.background,
           leading: IconButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        icon: const Icon(Icons.arrow_back_ios),
-      )),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_ios),
+          )),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -30,12 +31,26 @@ class _AccountPageState extends State<AccountPage> {
                 colors: [Colors.blue, Colors.green],
                 tileMode: TileMode.mirror,
               ).createShader(bounds),
-              child: Text(
-                "Musi Dash",
-                style: Theme.of(context)
-                    .textTheme
-                    .mainHeading
-                    .copyWith(color: Colors.white, fontSize: 40),
+              child: Hero(
+                flightShuttleBuilder: (flightContext, animation,
+                    flightDirection, fromHeroContext, toHeroContext) {
+                  return Container(
+                    width: 10.0,
+                    height: 10.0,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.blue,
+                    ),
+                  );
+                },
+                tag: 'title',
+                child: Text(
+                  "Musi Dash",
+                  style: Theme.of(context)
+                      .textTheme
+                      .mainHeading
+                      .copyWith(color: Colors.white, fontSize: 40),
+                ),
               ),
             ),
             const SizedBox(
@@ -85,16 +100,11 @@ class _AccountPageState extends State<AccountPage> {
                     borderRadius: BorderRadius.circular(20.0),
                   )),
                   backgroundColor: MaterialStateProperty.all(
-                      Theme.of(context).colorScheme.primary),
+                      Theme.of(context).colorScheme.tertiary),
                   padding:
                       MaterialStateProperty.all(const EdgeInsets.all(16.0))),
-              child: Text(
-                "Register",
-                style: Theme.of(context)
-                    .textTheme
-                    .mediumHeading
-                    .copyWith(color: Colors.white),
-              ),
+              child: Text("Register",
+                  style: Theme.of(context).textTheme.mediumHeading),
             ),
           ),
           const SizedBox(
@@ -119,10 +129,7 @@ class _AccountPageState extends State<AccountPage> {
                       MaterialStateProperty.all(const EdgeInsets.all(16.0))),
               child: Text(
                 "Sign In",
-                style: Theme.of(context)
-                    .textTheme
-                    .mediumHeading
-                    .copyWith(color: Colors.black),
+                style: Theme.of(context).textTheme.mediumHeading,
               ),
             ),
           )

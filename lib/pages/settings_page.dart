@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:musi/constants/theme/theme_provider.dart';
-import 'package:musi/pages/login_page.dart';
+import 'package:musi/pages/account_page.dart';
 import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -45,7 +45,7 @@ class SettingsPage extends StatelessWidget {
                 leading: const Icon(Icons.account_box),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const LoginScreen();
+                    return const AccountPage();
                   }));
                 },
               ),

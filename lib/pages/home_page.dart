@@ -49,9 +49,22 @@ class _HomePageState extends State<HomePage> {
                 //     builder: (context, controller) => Text("Hellow")),
                 const MySearchBar(),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0, left: 16.0),
+                  padding: const EdgeInsets.only(top: 8.0, left: 10.0),
                   child: Text(
                     'Quick Picks',
+                    style: Theme.of(context).textTheme.mainHeading,
+                  ),
+                ),
+                SingleChildScrollView(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * .4,
+                    child: const SongsList(),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, left: 10.0),
+                  child: Text(
+                    'Covers and Remixes',
                     style: Theme.of(context).textTheme.mainHeading,
                   ),
                 ),

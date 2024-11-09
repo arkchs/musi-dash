@@ -85,9 +85,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
     } else {
       index = index - 1;
     }
-    Navigator.push((context), MaterialPageRoute(builder: (context) {
-      return SongsPage(index: index);
-    }));
+    slideRouteBuilderAnimation(index, -1.0, 0.0);
   }
 
   void slideRouteBuilderAnimation(int index, double x, double y) {
@@ -187,7 +185,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15),
           child: CustomUtilityOptions(
             radius: radius,
             color: color,

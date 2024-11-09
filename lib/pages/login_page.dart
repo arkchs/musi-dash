@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:musi/constants/theme/text_theme.dart';
-import 'package:musi/pages/register.dart';
+import 'package:musi/pages/register_page.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -27,11 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: size.height * 0.02,
               ),
-              Text("Sign In",
-                  style: Theme.of(context)
-                      .textTheme
-                      .mainHeading
-                      .copyWith(color: Colors.black)),
+              Text("Sign In", style: Theme.of(context).textTheme.mainHeading),
               SizedBox(
                 height: size.height * 0.04,
               ),
@@ -60,17 +56,32 @@ class _LoginScreenState extends State<LoginScreen> {
 
   AppBar _basicAppBar(BuildContext context) {
     return AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         title: ShaderMask(
           shaderCallback: (bounds) => const LinearGradient(
             colors: [Colors.blue, Colors.green],
             tileMode: TileMode.mirror,
           ).createShader(bounds),
-          child: Text(
-            "Musi Dash",
-            style: Theme.of(context)
-                .textTheme
-                .mainHeading
-                .copyWith(color: Colors.white),
+          child: Hero(
+            flightShuttleBuilder: (flightContext, animation, flightDirection,
+                fromHeroContext, toHeroContext) {
+              return Container(
+                width: 10.0,
+                height: 10.0,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.blue,
+                ),
+              );
+            },
+            tag: 'title',
+            child: Text(
+              "Musi Dash",
+              style: Theme.of(context)
+                  .textTheme
+                  .mainHeading
+                  .copyWith(color: Colors.white),
+            ),
           ),
         ),
         centerTitle: true,
@@ -151,14 +162,11 @@ class _LoginScreenState extends State<LoginScreen> {
           fixedSize: MaterialStateProperty.all(
               Size(size.width - 48, size.height * .1)),
           backgroundColor:
-              MaterialStateProperty.all(Theme.of(context).colorScheme.primary),
+              MaterialStateProperty.all(Theme.of(context).colorScheme.tertiary),
           padding: MaterialStateProperty.all(const EdgeInsets.all(16.0))),
       child: Text(
         "Sign In",
-        style: Theme.of(context)
-            .textTheme
-            .mediumHeading
-            .copyWith(color: Colors.white),
+        style: Theme.of(context).textTheme.mediumHeading,
       ),
     );
   }

@@ -27,11 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: size.height * 0.02,
               ),
-              Text("Register",
-                  style: Theme.of(context)
-                      .textTheme
-                      .mainHeading
-                      .copyWith(color: Colors.black)),
+              Text("Register", style: Theme.of(context).textTheme.mainHeading),
               SizedBox(
                 height: size.height * 0.04,
               ),
@@ -61,17 +57,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   AppBar _basicAppBar(BuildContext context) {
     return AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         title: ShaderMask(
           shaderCallback: (bounds) => const LinearGradient(
             colors: [Colors.blue, Colors.green],
             tileMode: TileMode.mirror,
           ).createShader(bounds),
-          child: Text(
-            "Musi Dash",
-            style: Theme.of(context)
-                .textTheme
-                .mainHeading
-                .copyWith(color: Colors.white),
+          child: Hero(
+            flightShuttleBuilder: (flightContext, animation, flightDirection,
+                fromHeroContext, toHeroContext) {
+              return Container(
+                width: 10.0,
+                height: 10.0,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.blue,
+                ),
+              );
+            },
+            tag: 'title',
+            child: Text(
+              "Musi Dash",
+              style: Theme.of(context)
+                  .textTheme
+                  .mainHeading
+                  .copyWith(color: Colors.white),
+            ),
           ),
         ),
         centerTitle: true,
@@ -81,49 +92,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Navigator.pop(context);
           },
         ));
-  }
-
-  Row _signupText(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("Already a member?",
-            style: Theme.of(context).textTheme.smallHeadings),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()));
-          },
-          child: Text(" Sign In",
-              style: Theme.of(context)
-                  .textTheme
-                  .smallHeadings
-                  .copyWith(color: Theme.of(context).colorScheme.primary)),
-        ),
-      ],
-    );
-  }
-
-  TextButton _button(Size size, BuildContext context) {
-    return TextButton(
-      onPressed: () {},
-      style: ButtonStyle(
-          shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          )),
-          fixedSize: MaterialStateProperty.all(
-              Size(size.width - 48, size.height * .1)),
-          backgroundColor:
-              MaterialStateProperty.all(Theme.of(context).colorScheme.primary),
-          padding: MaterialStateProperty.all(const EdgeInsets.all(16.0))),
-      child: Text(
-        "Sign Up",
-        style: Theme.of(context)
-            .textTheme
-            .mediumHeading
-            .copyWith(color: Colors.white),
-      ),
-    );
   }
 
   Padding _password(BuildContext context) {
@@ -182,6 +150,49 @@ class _SignUpScreenState extends State<SignUpScreen> {
             border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(25.0)))),
       ),
+    );
+  }
+
+  TextButton _button(Size size, BuildContext context) {
+    return TextButton(
+      onPressed: () {},
+      style: ButtonStyle(
+          shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          )),
+          fixedSize: MaterialStateProperty.all(
+              Size(size.width - 48, size.height * .1)),
+          backgroundColor:
+              MaterialStateProperty.all(Theme.of(context).colorScheme.tertiary),
+          padding: MaterialStateProperty.all(const EdgeInsets.all(16.0))),
+      child: Text(
+        "Sign Up",
+        style: Theme.of(context)
+            .textTheme
+            .mediumHeading
+            .copyWith(color: Colors.white),
+      ),
+    );
+  }
+
+  Row _signupText(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("Already a member?",
+            style: Theme.of(context).textTheme.smallHeadings),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()));
+          },
+          child: Text(" Sign In",
+              style: Theme.of(context)
+                  .textTheme
+                  .smallHeadings
+                  .copyWith(color: Theme.of(context).colorScheme.primary)),
+        ),
+      ],
     );
   }
 }

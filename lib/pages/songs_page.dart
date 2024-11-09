@@ -60,6 +60,9 @@ class _SongsPageState extends State<SongsPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
+                    SizedBox(
+                      height: size.height * .1,
+                    ),
                     GestureDetector(
                       onVerticalDragUpdate: (details) {
                         if (details.delta.dy > 0) {
@@ -68,8 +71,8 @@ class _SongsPageState extends State<SongsPage> {
                       },
                       child: NeuBox(
                         color: Theme.of(context).colorScheme.background,
-                        height: size.aspectRatio * size.height * .6,
-                        width: (1 / size.aspectRatio) * size.width * .4,
+                        height: size.aspectRatio * size.height * .8,
+                        width: (1 / size.aspectRatio) * size.width * .38,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20.0),
                           child: Image.asset(
@@ -80,7 +83,7 @@ class _SongsPageState extends State<SongsPage> {
                       ),
                     ),
                     SizedBox(
-                      height: size.height * 0.1,
+                      height: size.height * 0.07,
                     ),
                     Text(
                       value.songs[widget.index].songName.toString(),
@@ -96,6 +99,34 @@ class _SongsPageState extends State<SongsPage> {
                     PlayerWidget(
                       player: audioPlayer,
                       index: widget.index,
+                    ),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.playlist_add_outlined),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.dark_mode_outlined),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.lyrics_outlined),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.man_outlined),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.more_horiz),
+                          onPressed: () {},
+                        ),
+                      ],
                     )
                   ],
                 ),

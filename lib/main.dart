@@ -2,10 +2,7 @@ import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:musi/constants/theme/theme_provider.dart';
 import 'package:musi/models/songs_provider.dart';
-import 'package:musi/pages/account_page.dart';
-import 'package:musi/pages/home_page.dart';
-import 'package:musi/pages/login_page.dart';
-import 'package:musi/pages/register.dart';
+import 'package:musi/pages/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 /// TODO 1: Add the dynamic theme and color picker package now
@@ -27,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const AccountPage(),
+      home: SplashScreen(),
       theme: Provider.of<ThemeProvider>(context).themeData,
     );
   }

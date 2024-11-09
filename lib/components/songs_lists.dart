@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:musi/constants/theme/text_theme.dart';
 import 'package:musi/constants/theme/theme_provider.dart';
 import 'package:musi/models/songs.dart';
@@ -52,9 +51,9 @@ class _SongsListState extends State<SongsList> {
       builder: (context, value, child) {
         return PageView.builder(
             itemCount: 5,
-            controller: PageController(viewportFraction: 0.9),
+            controller: PageController(viewportFraction: 1.0),
             itemBuilder: (BuildContext context, int itemIndex) {
-              int listLen = 6;
+              int listLen = 4;
               List<Songs> song = [];
               List<String> title = [];
               List<String> subtitle = [];
@@ -65,54 +64,53 @@ class _SongsListState extends State<SongsList> {
                 subtitle.add(song[i].songArtist.toString());
                 imagePath.add(song[i].songImagePath.toString());
               }
-              return ListView.builder(
+              return ListView.separated(
                   shrinkWrap: true,
                   itemCount: song.length,
-                  itemBuilder: (context, index) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 3.0),
-                        child: ListTile(
-                          onTap: () {
-                            _updatePaletteGenerator(
-                                    AssetImage(imagePath[index]))
-                                .then((PaletteColor? color) {
-                              if (color != null) {}
-                            });
-                            _routeSongsPage(index);
-                            value.currentSongIndex = index;
-                          },
-                          title: Text(
-                              "${title[index]} ${index + itemIndex * listLen + 1}",
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .mediumHeading
-                                  .copyWith(
-                                      color: Provider.of<ThemeProvider>(context)
-                                              .isDarkMode
-                                          ? Colors.white
-                                          : Colors.black)),
-                          subtitle: Text(
-                            subtitle[index],
+                  separatorBuilder: (context, index) => const SizedBox(
+                        height: 0,
+                      ),
+                  itemBuilder: (context, index) => ListTile(
+                        onTap: () {
+                          // _updatePaletteGenerator(AssetImage(imagePath[index]))
+                          //     .then((PaletteColor? color) {
+                          //   if (color != null) {}
+                          // });
+                          _routeSongsPage(index);
+                          value.currentSongIndex = index;
+                        },
+                        leading: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Image.asset(
+                            imagePath[index],
+                            height: 75.0,
+                          ),
+                        ),
+                        title: Text(
+                            "${title[index]} ${index + itemIndex * listLen + 1}",
+                            overflow: TextOverflow.ellipsis,
                             style: Theme.of(context)
                                 .textTheme
-                                .smallHeadings
+                                .mediumHeading
                                 .copyWith(
                                     color: Provider.of<ThemeProvider>(context)
                                             .isDarkMode
-                                        ? Colors.white70
-                                        : Colors.black),
-                          ),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.more_vert),
-                            onPressed: () {},
-                          ),
-                          leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Image.asset(
-                              imagePath[index],
-                              height: 50.0,
-                            ),
-                          ),
+                                        ? Colors.white
+                                        : Colors.black)),
+                        subtitle: Text(
+                          subtitle[index],
+                          style: Theme.of(context)
+                              .textTheme
+                              .smallHeadings
+                              .copyWith(
+                                  color: Provider.of<ThemeProvider>(context)
+                                          .isDarkMode
+                                      ? Colors.white70
+                                      : Colors.black87),
+                        ),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.more_vert),
+                          onPressed: () {},
                         ),
                       ));
             });
