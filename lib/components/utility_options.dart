@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 class CustomUtilityOptions extends StatelessWidget {
@@ -5,21 +6,23 @@ class CustomUtilityOptions extends StatelessWidget {
   final void Function()? onSkipToNext;
   final void Function()? onPlay;
   final void Function()? onPause;
-
+  final AudioPlayer player;
   final Color color;
   final Color iconColor;
   final bool isPlaying;
   final BorderRadius radius;
-  const CustomUtilityOptions(
-      {super.key,
-      required this.onSkipToPrevious,
-      required this.onSkipToNext,
-      required this.color,
-      required this.iconColor,
-      this.onPlay,
-      this.onPause,
-      required this.isPlaying,
-      required this.radius});
+  const CustomUtilityOptions({
+    super.key,
+    required this.onSkipToPrevious,
+    required this.onSkipToNext,
+    required this.color,
+    required this.iconColor,
+    this.onPlay,
+    this.onPause,
+    required this.isPlaying,
+    required this.radius,
+    required this.player,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -63,14 +66,52 @@ class CustomUtilityOptions extends StatelessWidget {
           icon: Icon(Icons.skip_next, color: iconColor),
           color: color,
         ),
-        IconButton(
-          key: const Key('repeat'),
-          onPressed: () {},
-          iconSize: 25.0,
-          icon: Icon(Icons.repeat, color: iconColor),
+        RepeatButton(
+          player: player,
           color: color,
         ),
       ],
+    );
+  }
+}
+
+class RepeatButton extends StatefulWidget {
+  final AudioPlayer player;
+  final Color color;
+  const RepeatButton({super.key, required this.player, required this.color});
+
+  @override
+  State<RepeatButton> createState() => _RepeatButtonState();
+}
+
+class _RepeatButtonState extends State<RepeatButton> {
+  bool _isLooping = false;
+
+  void _toggleRepeat() {
+    if (!_isLooping) {
+      widget.player.setReleaseMode(ReleaseMode.loop).then((isLooping) {
+        setState(() {
+          _isLooping = !_isLooping;
+        });
+      });
+    } else {
+      widget.player.setReleaseMode(ReleaseMode.stop).then((isLooping) {
+        setState(() {
+          _isLooping = !_isLooping;
+        });
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      key: const Key('repeat'),
+      onPressed: _toggleRepeat,
+      iconSize: 25.0,
+      icon: _isLooping
+          ? const Icon(Icons.repeat_one)
+          : Icon(Icons.repeat, color: widget.color),
     );
   }
 }

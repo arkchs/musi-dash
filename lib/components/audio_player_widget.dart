@@ -122,8 +122,6 @@ class _PlayerWidgetState extends State<PlayerWidget> {
     slideRouteBuilderAnimation(index, 1.0, 0.0);
   }
 
-  void _repeatCurrent() {}
-
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).primaryColor;
@@ -187,6 +185,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15),
           child: CustomUtilityOptions(
+            player: player,
             radius: radius,
             color: color,
             iconColor: iconColor,
