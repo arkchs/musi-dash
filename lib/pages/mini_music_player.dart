@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:musi/constants/theme/text_theme.dart';
 import 'package:musi/constants/theme/theme_provider.dart';
@@ -46,42 +44,49 @@ class _MiniPlayerState extends State<MiniPlayer> {
       final String title = value.songs[widget.index].songName.toString();
       final String imagePath =
           value.songs[widget.index].songImagePath.toString();
-      return ListTile(
-        onTap: () {
-          _routeSongsPage(widget.index);
+      return GestureDetector(
+        onVerticalDragUpdate: (details) {
+          if (details.delta.dy > 0) {
+            Provider.of<SongsProvider>(context).currentSongIndex = null;
+          }
         },
-        title: Text(title,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.mediumHeading.copyWith(
+        child: ListTile(
+          onTap: () {
+            _routeSongsPage(widget.index);
+          },
+          title: Text(title,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.mediumHeading.copyWith(
+                  color: Provider.of<ThemeProvider>(context).isDarkMode
+                      ? Colors.white
+                      : Colors.black)),
+          subtitle: Text(
+            title,
+            style: Theme.of(context).textTheme.smallHeadings.copyWith(
                 color: Provider.of<ThemeProvider>(context).isDarkMode
-                    ? Colors.white
-                    : Colors.black)),
-        subtitle: Text(
-          title,
-          style: Theme.of(context).textTheme.smallHeadings.copyWith(
-              color: Provider.of<ThemeProvider>(context).isDarkMode
-                  ? Colors.white70
-                  : Colors.black),
+                    ? Colors.white70
+                    : Colors.black),
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.play_arrow),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: const Icon(Icons.skip_next),
+                onPressed: () {},
+              ),
+            ],
+          ),
+          leading: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Image.asset(
+                imagePath,
+                height: 50.0,
+              )),
         ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.play_arrow),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.skip_next),
-              onPressed: () {},
-            ),
-          ],
-        ),
-        leading: ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: Image.asset(
-              imagePath,
-              height: 50.0,
-            )),
       );
     });
   }

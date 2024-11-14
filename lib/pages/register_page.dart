@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:musi/components/app_bar.dart';
+import 'package:musi/components/common_account_components.dart';
 import 'package:musi/constants/theme/text_theme.dart';
 import 'package:musi/pages/login_page.dart';
 
@@ -10,14 +12,27 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  void _submit() {
+    final isValid = formKey.currentState!.validate();
+    if (!isValid) {
+      return;
+    }
+    formKey.currentState!.save();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController nameController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: _basicAppBar(context),
+      appBar: const MyAppBar(title: 'Musi Dash'),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Form(
+        key: formKey,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -31,13 +46,56 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: size.height * 0.04,
               ),
-              _userName(context),
-              _emailField(context),
-              _password(context),
+              MyTextFormField(
+                  labelText: 'Enter a Username',
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Enter a Username';
+                    }
+                    return null;
+                  },
+                  controller: nameController,
+                  inputType: TextInputType.text),
+              MyTextFormField(
+                  labelText: 'Enter Your Email',
+                  validator: (value) {
+                    if (value!.isEmpty ||
+                        !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value)) {
+                      return 'Enter a valid email';
+                    }
+                    return null;
+                  },
+                  controller: emailController,
+                  inputType: TextInputType.emailAddress),
+              MyTextFormField(
+                  labelText: 'Password',
+                  validator: (value) {
+                    if (value!.isEmpty ||
+                        !RegExp(r"^(?=.*[0-9])").hasMatch(value)) {
+                      return 'Password must have digits';
+                    } else if (!RegExp(r"(?=.*[a-z])").hasMatch(value)) {
+                      return 'Must have a lowercase letter';
+                    } else if (!RegExp(r"(?=.*[A-Z])").hasMatch(value)) {
+                      return 'Must have a uppercase letter';
+                    } else if (!RegExp(r"(?=.*[A-Z])").hasMatch(value)) {
+                      return 'Must have a uppercase letter';
+                    } else if (!RegExp(r"(?=.*[@#$%^&+=])").hasMatch(value)) {
+                      return 'Must have a special character';
+                    } else if (!RegExp(r"(?=\S+$).{8,20}$").hasMatch(value)) {
+                      return 'Must be between 8 and 20 characters long';
+                    }
+                    return null;
+                  },
+                  controller: passwordController,
+                  inputType: TextInputType.visiblePassword),
               SizedBox(
                 height: size.height * 0.02,
               ),
-              _button(size, context),
+              MyButton(
+                labelText: "Sign Up",
+                onPressed: _submit,
+              ),
               SizedBox(
                 height: size.height * 0.02,
               ),
@@ -51,126 +109,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  AppBar _basicAppBar(BuildContext context) {
-    return AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        title: ShaderMask(
-          shaderCallback: (bounds) => const LinearGradient(
-            colors: [Colors.blue, Colors.green],
-            tileMode: TileMode.mirror,
-          ).createShader(bounds),
-          child: Hero(
-            flightShuttleBuilder: (flightContext, animation, flightDirection,
-                fromHeroContext, toHeroContext) {
-              return Container(
-                width: 10.0,
-                height: 10.0,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.blue,
-                ),
-              );
-            },
-            tag: 'title',
-            child: Text(
-              "Musi Dash",
-              style: Theme.of(context)
-                  .textTheme
-                  .mainHeading
-                  .copyWith(color: Colors.white),
-            ),
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, size: 15),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ));
-  }
-
-  Padding _password(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: TextFormField(
-        enabled: true,
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.inversePrimary),
-              borderRadius: const BorderRadius.all(Radius.circular(25.0))),
-          labelText: 'Password',
-          contentPadding:
-              const EdgeInsets.only(left: 20.0, top: 25.0, bottom: 25.0),
-          border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0))),
-        ),
-      ),
-    );
-  }
-
-  Padding _emailField(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: TextFormField(
-        enabled: true,
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.inversePrimary),
-              borderRadius: const BorderRadius.all(Radius.circular(25.0))),
-          labelText: 'Enter your Email',
-          contentPadding:
-              const EdgeInsets.only(left: 20.0, top: 25.0, bottom: 25.0),
-          border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0))),
-        ),
-      ),
-    );
-  }
-
-  Padding _userName(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: TextFormField(
-        enabled: true,
-        decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.inversePrimary),
-                borderRadius: const BorderRadius.all(Radius.circular(25.0))),
-            labelText: 'Enter a Username',
-            contentPadding:
-                const EdgeInsets.only(left: 20.0, top: 25.0, bottom: 25.0),
-            border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(25.0)))),
-      ),
-    );
-  }
-
-  TextButton _button(Size size, BuildContext context) {
-    return TextButton(
-      onPressed: () {},
-      style: ButtonStyle(
-          shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          )),
-          fixedSize: MaterialStateProperty.all(
-              Size(size.width - 48, size.height * .1)),
-          backgroundColor:
-              MaterialStateProperty.all(Theme.of(context).colorScheme.tertiary),
-          padding: MaterialStateProperty.all(const EdgeInsets.all(16.0))),
-      child: Text(
-        "Sign Up",
-        style: Theme.of(context)
-            .textTheme
-            .mediumHeading
-            .copyWith(color: Colors.white),
       ),
     );
   }

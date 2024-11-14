@@ -6,7 +6,6 @@ import 'package:musi/constants/theme/text_theme.dart';
 import 'package:musi/models/songs_provider.dart';
 import 'package:musi/pages/mini_music_player.dart';
 import 'package:musi/pages/settings_page.dart';
-import 'package:musi/pages/temp.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
     const SettingsPage(),
-    const FavoritesPage(),
+    const SettingsPage(),
     const SettingsPage(),
   ];
   void _onItemTapped(int index) {
@@ -36,6 +35,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Color color = Theme.of(context).colorScheme.inversePrimary;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
@@ -57,8 +57,11 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SingleChildScrollView(
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height * .4,
-                    child: const SongsList(),
+                    height: MediaQuery.of(context).size.height * .35,
+                    child: const SongsList(
+                      verticalListLen: 4,
+                      carouselPages: 5,
+                    ),
                   ),
                 ),
                 Padding(
@@ -70,8 +73,11 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SingleChildScrollView(
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height * .4,
-                    child: const SongsList(),
+                    height: MediaQuery.of(context).size.height * .35,
+                    child: const SongsList(
+                      verticalListLen: 4,
+                      carouselPages: 5,
+                    ),
                   ),
                 ),
                 Padding(
@@ -94,14 +100,38 @@ class _HomePageState extends State<HomePage> {
                   .currentSongIndex ==
               null
           ? BottomNavigationBar(
-              items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+              items: [
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.download), label: 'Downloads'),
+                  icon: Icon(
+                    Icons.home,
+                    color: color,
+                  ),
+                  label: 'Home',
+                ),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.music_note), label: 'Playlists'),
+                    icon: Icon(
+                      Icons.download,
+                      color: color,
+                    ),
+                    label: 'Downloads'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.radio), label: 'Account'),
+                    icon: Icon(
+                      Icons.music_note,
+                      color: color,
+                    ),
+                    label: 'Playlists'),
+                BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.radio,
+                      color: color,
+                    ),
+                    label: 'Account'),
+                BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.radio,
+                      color: color,
+                    ),
+                    label: 'random'),
               ],
               currentIndex: _selectedIndex,
               selectedItemColor: Colors.blue,
