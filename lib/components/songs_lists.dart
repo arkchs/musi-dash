@@ -4,11 +4,14 @@ import 'package:musi/constants/theme/theme_provider.dart';
 import 'package:musi/models/songs.dart';
 import 'package:musi/models/songs_provider.dart';
 import 'package:musi/pages/songs_page.dart';
-import 'package:palette_generator/palette_generator.dart';
+// import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
 class SongsList extends StatefulWidget {
-  const SongsList({super.key});
+  final int verticalListLen;
+  final int carouselPages;
+  const SongsList(
+      {super.key, required this.verticalListLen, required this.carouselPages});
 
   @override
   State<SongsList> createState() => _SongsListState();
@@ -37,23 +40,23 @@ class _SongsListState extends State<SongsList> {
     );
   }
 
-  Future<PaletteColor?> _updatePaletteGenerator(image) async {
-    PaletteGenerator palette = await PaletteGenerator.fromImageProvider(
-      image,
-      maximumColorCount: 20,
-    );
-    return palette.dominantColor;
-  }
+  // Future<PaletteColor?> _updatePaletteGenerator(image) async {
+  //   PaletteGenerator palette = await PaletteGenerator.fromImageProvider(
+  //     image,
+  //     maximumColorCount: 20,
+  //   );
+  //   return palette.dominantColor;
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<SongsProvider>(
       builder: (context, value, child) {
         return PageView.builder(
-            itemCount: 5,
+            itemCount: widget.carouselPages,
             controller: PageController(viewportFraction: 1.0),
             itemBuilder: (BuildContext context, int itemIndex) {
-              int listLen = 4;
+              int listLen = widget.verticalListLen;
               List<Songs> song = [];
               List<String> title = [];
               List<String> subtitle = [];
@@ -65,12 +68,14 @@ class _SongsListState extends State<SongsList> {
                 imagePath.add(song[i].songImagePath.toString());
               }
               return ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: song.length,
                   separatorBuilder: (context, index) => const SizedBox(
                         height: 0,
                       ),
                   itemBuilder: (context, index) => ListTile(
+                        dense: true,
                         onTap: () {
                           // _updatePaletteGenerator(AssetImage(imagePath[index]))
                           //     .then((PaletteColor? color) {
@@ -83,7 +88,6 @@ class _SongsListState extends State<SongsList> {
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.asset(
                             imagePath[index],
-                            height: 75.0,
                           ),
                         ),
                         title: Text(

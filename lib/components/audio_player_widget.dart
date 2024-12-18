@@ -56,6 +56,14 @@ class _PlayerWidgetState extends State<PlayerWidget> {
             _position = value;
           }),
         );
+    player.onPlayerComplete.listen((event) {
+      print('onPlayerComplete');
+      int? cI =
+          Provider.of<SongsProvider>(context, listen: false).currentSongIndex;
+      if (cI != null) {
+        _skipToNext();
+      }
+    });
     _initStreams();
   }
 
