@@ -1,13 +1,13 @@
 // server/server.js
 import express from 'express';
-import connectDB from './db.js';
+import connectMongoDB from './db.js';
 import authRoutes from './routes/auth.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 const app = express();
 
 // Connect Database
-connectDB();
+connectMongoDB();
 
 // Load environment variables
 dotenv.config();
