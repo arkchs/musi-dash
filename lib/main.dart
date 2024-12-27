@@ -1,4 +1,3 @@
-import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:musi/constants/theme/theme_provider.dart';
 import 'package:musi/models/songs_provider.dart';

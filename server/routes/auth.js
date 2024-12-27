@@ -2,10 +2,11 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
+import User from '../models/user.js';
 
 const router = express.Router();
-
+dotenv.config();
+const SECRET_KEY = process.env.SECRET_KEY;
 // Register
 router.post('/register', async (req, res) => {
   const { username, password } = req.body;
@@ -22,9 +23,9 @@ router.post('/register', async (req, res) => {
     user.password = await bcrypt.hash(password, salt);
 
     await user.save();
-
+    
     const payload = { user: { id: user.id } };
-    jwt.sign(payload, 'secret', { expiresIn: 3600 }, (err, token) => {
+    jwt.sign(payload, SECRET_KEY, { expiresIn: 3600 }, (err, token) => {
       if (err) throw err;
       res.json({ token });
     });
@@ -39,14 +40,17 @@ router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
   try {
+    console.log('starting out the login...');
     let user = await User.findOne({ username });
+    console.log(user);
     if (!user) {
-      return res.status(400).json({ msg: 'Invalid credentials' });
+      console.log('Entering the login error check...');
+      return res.status(400).json({ msg: 'User doesn\'t exist' });
     }
-
+    
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ msg: 'Invalid credentials' });
+      return res.status(400).json({ msg: 'Incorrect Password' });
     }
 
     const payload = { user: { id: user.id } };
