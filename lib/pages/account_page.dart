@@ -15,7 +15,7 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
@@ -96,13 +96,13 @@ class _AccountPageState extends State<AccountPage> {
                         builder: (context) => const SignUpScreen()));
               },
               style: ButtonStyle(
-                  shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   )),
-                  backgroundColor: MaterialStateProperty.all(
+                  backgroundColor: WidgetStateProperty.all(
                       Theme.of(context).colorScheme.tertiary),
                   padding:
-                      MaterialStateProperty.all(const EdgeInsets.all(16.0))),
+                      WidgetStateProperty.all(const EdgeInsets.all(16.0))),
               child: Text("Register",
                   style: Theme.of(context).textTheme.mediumHeading),
             ),
@@ -120,13 +120,13 @@ class _AccountPageState extends State<AccountPage> {
                         builder: (context) => const LoginScreen()));
               },
               style: ButtonStyle(
-                  shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   )),
-                  backgroundColor: MaterialStateProperty.all(
-                      Theme.of(context).colorScheme.background),
+                  backgroundColor: WidgetStateProperty.all(
+                      Theme.of(context).colorScheme.surface),
                   padding:
-                      MaterialStateProperty.all(const EdgeInsets.all(16.0))),
+                      WidgetStateProperty.all(const EdgeInsets.all(16.0))),
               child: Text(
                 "Sign In",
                 style: Theme.of(context).textTheme.mediumHeading,

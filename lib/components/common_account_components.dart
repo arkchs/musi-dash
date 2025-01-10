@@ -52,14 +52,14 @@ class MyButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       style: ButtonStyle(
-          shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+          shape: WidgetStatePropertyAll(RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           )),
-          fixedSize: MaterialStateProperty.all(
+          fixedSize: WidgetStateProperty.all(
               Size(size.width - 48, size.height * .1)),
           backgroundColor:
-              MaterialStateProperty.all(Theme.of(context).colorScheme.tertiary),
-          padding: MaterialStateProperty.all(const EdgeInsets.all(16.0))),
+              WidgetStateProperty.all(Theme.of(context).colorScheme.tertiary),
+          padding: WidgetStateProperty.all(const EdgeInsets.all(16.0))),
       child: Text(
         labelText,
         style: Theme.of(context)

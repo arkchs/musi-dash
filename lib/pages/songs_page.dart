@@ -70,7 +70,7 @@ class _SongsPageState extends State<SongsPage> {
                         }
                       },
                       child: NeuBox(
-                        color: Theme.of(context).colorScheme.background,
+                        color: Theme.of(context).colorScheme.surface,
                         height: size.aspectRatio * size.height * .8,
                         width: (1 / size.aspectRatio) * size.width * .38,
                         child: ClipRRect(
