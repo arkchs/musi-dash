@@ -96,13 +96,13 @@ class _AccountPageState extends State<AccountPage> {
                         builder: (context) => const SignUpScreen()));
               },
               style: ButtonStyle(
-                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                  shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   )),
-                  backgroundColor: WidgetStateProperty.all(
+                  backgroundColor: MaterialStatePropertyAll(
                       Theme.of(context).colorScheme.tertiary),
                   padding:
-                      WidgetStateProperty.all(const EdgeInsets.all(16.0))),
+                      const MaterialStatePropertyAll(EdgeInsets.all(16.0))),
               child: Text("Register",
                   style: Theme.of(context).textTheme.mediumHeading),
             ),
@@ -120,13 +120,13 @@ class _AccountPageState extends State<AccountPage> {
                         builder: (context) => const LoginScreen()));
               },
               style: ButtonStyle(
-                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                  shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   )),
-                  backgroundColor: WidgetStateProperty.all(
+                  backgroundColor: MaterialStatePropertyAll(
                       Theme.of(context).colorScheme.surface),
                   padding:
-                      WidgetStateProperty.all(const EdgeInsets.all(16.0))),
+                      const MaterialStatePropertyAll(EdgeInsets.all(16.0))),
               child: Text(
                 "Sign In",
                 style: Theme.of(context).textTheme.mediumHeading,

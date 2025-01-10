@@ -8,10 +8,10 @@ class MySearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SearchBar(
       constraints: const BoxConstraints(maxHeight: 45),
-      elevation: const WidgetStatePropertyAll(0.0),
+      elevation: const MaterialStatePropertyAll(0.0),
       leading: const Icon(Icons.search_outlined),
       hintText: "Search",
-      hintStyle: const WidgetStatePropertyAll(
+      hintStyle: const MaterialStatePropertyAll(
         TextStyle(),
       ),
       trailing: [
@@ -27,7 +27,7 @@ class MySearchBar extends StatelessWidget {
         ),
       ],
       backgroundColor:
-          WidgetStatePropertyAll(Theme.of(context).colorScheme.secondary),
+          MaterialStatePropertyAll(Theme.of(context).colorScheme.secondary),
     );
   }
 }
