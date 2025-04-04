@@ -7,6 +7,7 @@ Musi Dash is a Flutter-based music dashboard application designed to provide a s
 ## Features ✨
 
 - **Mini Player**: Enjoy a compact music player that stays accessible while you browse.
+- **JWT Authentication**: Robust authentication using Nodejs.
 - **Library Management**: Organize your songs and playlists effortlessly.
 - **Search Functionality**: Quickly find your favorite tracks with an intuitive search bar.
 - **Customizable Themes**: Personalize the app's appearance to match your style.
