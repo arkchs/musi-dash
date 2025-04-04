@@ -38,9 +38,13 @@ Follow these steps to run and build the project on your local machine:
    flutter pub get
    ```
 3. Run the app:
-```bash
-flutter run
-```
+   ```bash
+   flutter run
+   ```
+4. Run the server:
+   ```bash
+   node server/app.js
+   ```
 
 4. Build the app for release:
    - **Android**:
