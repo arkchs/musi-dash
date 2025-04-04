@@ -1,19 +1,27 @@
 // server/server.js
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import connectMongoDB from './db.js';
 import authRoutes from './routes/auth.js';
+import songDownloadRoute from './routes/download.js';
+
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
+import cors from 'cors';    
 const app = express();
 
 // Connect Database
 connectMongoDB();
 
 // Load environment variables
-dotenv.config();
+
 const SECRET_KEY = process.env.SECRET_KEY;
 // Init Middleware
 app.use(express.json());
+app.use(cors());
+
+
+
 const authenticateToken = (req, res, next) => {
     // console.log('Authenticating token...');
     const authHeader = req.headers['authorization'];
@@ -37,6 +45,7 @@ app.get('/api/songs', authenticateToken, (req, res) => {
 
 // Define Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/songs', songDownloadRoute);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+app.listen(PORT, "0.0.0.0",  () => console.log(`Server started on port ${PORT}`));

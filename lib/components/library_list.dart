@@ -15,9 +15,9 @@ class LibraryList extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: Image.asset(
-              value.songs[index].songImagePath.toString(),
-            ),
+            child: Image.network(
+                // value.songs[index].songImagePath.toString(),
+                "https://picsum.photos/300/300"),
           ),
         ),
       ),

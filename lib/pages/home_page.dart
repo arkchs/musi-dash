@@ -4,8 +4,9 @@ import 'package:musi/components/my_search_bar.dart';
 import 'package:musi/components/songs_lists.dart';
 import 'package:musi/constants/theme/text_theme.dart';
 import 'package:musi/models/songs_provider.dart';
-import 'package:musi/pages/mini_music_player.dart';
+import 'package:musi/components/mini_player.dart';
 import 'package:musi/pages/settings_page.dart';
+import 'package:musi/services/audio_service.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -88,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * .2,
+                  height: MediaQuery.of(context).size.height * .3,
                   child: const LibraryList(),
                 ),
               ],
@@ -96,51 +97,52 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      bottomNavigationBar: Provider.of<SongsProvider>(context, listen: false)
-                  .currentSongIndex ==
-              null
-          ? BottomNavigationBar(
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home,
-                    color: color,
-                  ),
-                  label: 'Home',
+      bottomNavigationBar: AnimatedCrossFade(
+        firstChild: BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                color: color,
+              ),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.download,
+                  color: color,
                 ),
-                BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.download,
-                      color: color,
-                    ),
-                    label: 'Downloads'),
-                BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.music_note,
-                      color: color,
-                    ),
-                    label: 'Playlists'),
-                BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.radio,
-                      color: color,
-                    ),
-                    label: 'Account'),
-                BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.radio,
-                      color: color,
-                    ),
-                    label: 'random'),
-              ],
-              currentIndex: _selectedIndex,
-              selectedItemColor: Colors.blue,
-              unselectedItemColor: Theme.of(context).colorScheme.inversePrimary,
-              onTap: _onItemTapped,
-            )
-          : MiniPlayer(
-              index: Provider.of<SongsProvider>(context, listen: false)
-                  .currentSongIndex!),
+                label: 'Downloads'),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.music_note,
+                  color: color,
+                ),
+                label: 'Playlists'),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.radio,
+                  color: color,
+                ),
+                label: 'Account'),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.radio,
+                  color: color,
+                ),
+                label: 'random'),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Theme.of(context).colorScheme.inversePrimary,
+          onTap: _onItemTapped,
+        ),
+        secondChild: const MiniPlayer(),
+        crossFadeState: Provider.of<AudioService>(context).hideMini == true
+            ? CrossFadeState.showFirst
+            : CrossFadeState.showSecond,
+        duration: const Duration(milliseconds: 400),
+      ),
     );
   }
 }

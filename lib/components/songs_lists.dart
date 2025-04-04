@@ -86,8 +86,9 @@ class _SongsListState extends State<SongsList> {
                         },
                         leading: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
-                          child: Image.asset(
-                            imagePath[index],
+                          child: Image.network(
+                            // imagePath[index],
+                            "https://picsum.photos/300/300",
                           ),
                         ),
                         title: Text(

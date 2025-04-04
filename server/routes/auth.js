@@ -3,35 +3,42 @@ import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
-
 const router = express.Router();
-dotenv.config();
-const SECRET_KEY = process.env.SECRET_KEY;
 // Register
 router.post("/register", async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, email } = req.body;
+  
+  // console.log('Registration attempt for username:', username);
+  // console.log('Email:', email);
 
   try {
-    let user = await User.findOne({ username });
+    let user = await User.findOne({ username: username });
+    // console.log('Existing user check result:', user);
+    
     if (user) {
+      // console.log('User already exists in database');
       return res.status(400).json({ msg: "User already exists" });
     }
 
-    user = new User({ username, password });
+    user = new User({ username: username, password: password, email: email });
+    // console.log('New user object created:', { username: user.username, email: user.email });
 
     const salt = await bcrypt.genSalt(10);
     const temp = await bcrypt.hash(password, salt);
-    console.log(temp);
+    // console.log('Password hashed successfully');
     user.password = temp;
+    
     await user.save();
+    // console.log('User saved to database successfully');
     
     const payload = { user: { id: user.id } };
-    jwt.sign(payload, SECRET_KEY, { expiresIn: 3600 }, (err, token) => {
+    jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: 3600 }, (err, token) => {
       if (err) throw err;
+      // console.log('JWT token generated successfully');
       res.json({ token });
     });
   } catch (err) {
-    console.error(err.message);
+    // console.error('Registration error:', err.message);
     res.status(500).send("Server error");
   }
 });
@@ -39,28 +46,34 @@ router.post("/register", async (req, res) => {
 // Login
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
+  
+  console.log('Login attempt received:', { username, password: '***' });
 
   try {
-    console.log('starting out the login...');
-    let user = await User.findOne({ username });
-    console.log(user);
+    let user = await User.findOne({ username: username });
+    console.log('User found:', user ? 'Yes' : 'No');
+    
     if (!user) {
-      console.log('Entering the login error check...');
       return res.status(400).json({ msg: 'User doesn\'t exist' });
     }
     
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log('Password match:', isMatch);
+    
     if (!isMatch) {
       return res.status(400).json({ msg: 'Incorrect Password' });
     }
 
     const payload = { user: { id: user.id } };
-    jwt.sign(payload, "secret", { expiresIn: 3600 }, (err, token) => {
-      if (err) throw err;
+    jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: 3600 }, (err, token) => {
+      if (err) {
+        console.error('JWT Error:', err);
+        throw err;
+      }
       res.json({ token });
     });
   } catch (err) {
-    console.error(err.message);
+    console.error('Login error:', err.message);
     res.status(500).send("Server error");
   }
 });
