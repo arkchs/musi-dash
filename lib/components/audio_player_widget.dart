@@ -48,7 +48,6 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   }
 
   void _skipToPrevious() {
-    Navigator.pop(context);
     int index = widget.index ?? 0;
     int numberOfSongs = context.read<SongsProvider>().songs.length;
     if (index == 0) {
@@ -59,26 +58,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
     slideRouteBuilderAnimation(index, -1.0, 0.0);
   }
 
-  void slideRouteBuilderAnimation(int index, double x, double y) {
-    Navigator.push(
-        context,
-        PageRouteBuilder(
-            transitionDuration: const Duration(milliseconds: 500),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              Offset begin = Offset(x, y);
-              Offset end = Offset.zero;
-              final Tween<Offset> tween = Tween(begin: begin, end: end);
-              final Animation<Offset> offsetAnimation = animation.drive(tween);
-
-              return SlideTransition(
-                position: offsetAnimation,
-                child: child,
-              );
-            },
-            pageBuilder: ((context, animation, secondaryAnimation) =>
-                SongsPage(index: index))));
-  }
+  void slideRouteBuilderAnimation(int index, double x, double y) {}
 
   void _skipToNext() {
     Navigator.pop(context);

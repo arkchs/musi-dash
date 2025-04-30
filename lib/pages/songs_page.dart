@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:musi/components/audio_player_widget.dart';
 import 'package:musi/components/mini_player.dart';
 import 'package:musi/components/neu_box.dart';
+import 'package:musi/constants/temp.dart';
 import 'package:musi/constants/theme/text_theme.dart';
 import 'package:musi/constants/theme/theme_provider.dart';
 import 'package:musi/models/songs_provider.dart';
@@ -105,7 +106,7 @@ class _SongsPageState extends State<SongsPage>
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(20.0),
                               child: Image.network(
-                                "https://picsum.photos/300/300",
+                                rdnImgLnk,
                                 fit: BoxFit.cover,
                               ),
                             ),

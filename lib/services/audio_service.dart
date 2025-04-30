@@ -7,7 +7,7 @@ class AudioService extends ChangeNotifier {
   Duration? _duration;
   Duration? _position;
   int? _currentSongIndex;
-  bool? _hideMini;
+  bool? _hideMini = true;
 
   // Getters
   AudioPlayer get audioPlayer => _audioPlayer;

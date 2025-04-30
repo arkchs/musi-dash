@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:musi/constants/temp.dart';
 import 'package:musi/constants/theme/text_theme.dart';
 import 'package:musi/constants/theme/theme_provider.dart';
 import 'package:musi/models/songs_provider.dart';
@@ -96,8 +97,8 @@ class _MiniPlayerState extends State<MiniPlayer>
               margin: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                image: const DecorationImage(
-                  image: NetworkImage("https://picsum.photos/300/300"),
+                image: DecorationImage(
+                  image: NetworkImage(rdnImgLnk),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -126,36 +127,33 @@ class _MiniPlayerState extends State<MiniPlayer>
               ),
             ),
             // Playback Controls
-            Row(
-              children: [
-                IconButton(
-                  icon: Icon(
-                    audioService.playerState == PlayerState.playing
-                        ? Icons.pause
-                        : Icons.play_arrow,
-                    color: color,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      audioService.playerState == PlayerState.playing
+                          ? Icons.pause
+                          : Icons.play_arrow,
+                      color: color,
+                    ),
+                    onPressed: () {
+                      if (audioService.playerState == PlayerState.playing) {
+                        audioService.pause();
+                      } else {
+                        audioService.play();
+                      }
+                    },
                   ),
-                  onPressed: () {
-                    if (audioService.playerState == PlayerState.playing) {
-                      audioService.pause();
-                    } else {
-                      audioService.play();
-                    }
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.skip_next, color: Colors.grey),
-                  onPressed: () {
-                    // Implement next song logic
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.close, color: Colors.grey),
-                  onPressed: () {
-                    audioService.stop();
-                  },
-                ),
-              ],
+                  IconButton(
+                    icon: const Icon(Icons.skip_next, color: Colors.grey),
+                    onPressed: () {
+                      // Implement next song logic
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),

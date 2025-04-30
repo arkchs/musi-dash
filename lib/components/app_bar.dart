@@ -37,12 +37,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
         ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, size: 15),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ));
+        centerTitle: true
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back_ios, size: 15),
+        //   onPressed: () {
+        //     Navigator.pop(context);
+        //   },
+        // ),
+        );
   }
 }

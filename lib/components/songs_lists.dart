@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:musi/constants/temp.dart';
 import 'package:musi/constants/theme/text_theme.dart';
 import 'package:musi/constants/theme/theme_provider.dart';
 import 'package:musi/models/songs.dart';
@@ -40,14 +41,6 @@ class _SongsListState extends State<SongsList> {
     );
   }
 
-  // Future<PaletteColor?> _updatePaletteGenerator(image) async {
-  //   PaletteGenerator palette = await PaletteGenerator.fromImageProvider(
-  //     image,
-  //     maximumColorCount: 20,
-  //   );
-  //   return palette.dominantColor;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<SongsProvider>(
@@ -88,7 +81,7 @@ class _SongsListState extends State<SongsList> {
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.network(
                             // imagePath[index],
-                            "https://picsum.photos/300/300",
+                            "$rdnImgLnk?random=$index",
                           ),
                         ),
                         title: Text(

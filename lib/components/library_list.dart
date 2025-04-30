@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:musi/constants/temp.dart';
 import 'package:musi/models/songs_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,7 @@ class LibraryList extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: Image.network(
                 // value.songs[index].songImagePath.toString(),
-                "https://picsum.photos/300/300"),
+                "$rdnImgLnk?random=$index"),
           ),
         ),
       ),

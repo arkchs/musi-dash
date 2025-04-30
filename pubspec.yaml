@@ -34,16 +34,16 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.6
-  provider: ^6.1.2
-  audioplayers: ^6.1.0
-  # on_audio_query: ^2.9.0
-  # dynamic_themes: ^1.1.0
-  # palette_generator: ^0.3.3+4
-  animated_splash_screen: ^1.3.0
-  lottie: ^3.1.3
-  sqflite: ^2.3.3+1
-  http: ^1.2.2
+  cupertino_icons:
+  provider:
+  audioplayers:
+  # on_audio_query:
+  # dynamic_themes:
+  # palette_generator:+4
+  animated_splash_screen:
+  lottie:
+  sqflite:
+  http:
 
 
 dev_dependencies:
