@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -66,13 +67,14 @@ class _SongsPageState extends State<SongsPage>
 
   void _handleDragUpdate(DragUpdateDetails details) {
     Navigator.of(context).pop();
-    Provider.of<AudioService>(context).setHideMini(false);
+    Provider.of<AudioService>(context, listen: false).setHideMini(false);
     // _controller.forward();
   }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    final double viewSize = size.aspectRatio > 1 ? size.width : size.height;
     final Color iconColor = Provider.of<ThemeProvider>(context).isDarkMode
         ? Colors.white70
         : Colors.black;
@@ -101,8 +103,8 @@ class _SongsPageState extends State<SongsPage>
                           },
                           child: NeuBox(
                             color: Theme.of(context).colorScheme.surface,
-                            height: size.aspectRatio * size.height * .8,
-                            width: (1 / size.aspectRatio) * size.width * .38,
+                            height: viewSize * .3,
+                            width: viewSize * .3,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(20.0),
                               child: Image.network(

@@ -80,11 +80,11 @@ class _MiniPlayerState extends State<MiniPlayer>
         height: 70,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black,
               blurRadius: 10,
-              offset: const Offset(0, -5),
+              offset: Offset(0,20),
             ),
           ],
         ),

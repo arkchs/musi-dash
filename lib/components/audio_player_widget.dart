@@ -26,13 +26,13 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   BorderRadius radius = BorderRadius.circular(20.0);
 
   bool get _isPlaying =>
-      context.watch<AudioService>().playerState == PlayerState.playing;
-  bool get _isPaused =>
-      context.watch<AudioService>().playerState == PlayerState.paused;
+      context.read<AudioService>().playerState == PlayerState.playing;
+  // bool get _isPaused =>
+  //     context.read<AudioService>().playerState == PlayerState.paused;
   String get _durationText =>
-      context.watch<AudioService>().duration?.toString().split('.').first ?? '';
+      context.read<AudioService>().duration?.toString().split('.').first ?? '';
   String get _positionText =>
-      context.watch<AudioService>().position?.toString().split('.').first ?? '';
+      context.read<AudioService>().position?.toString().split('.').first ?? '';
 
   @override
   void initState() {
@@ -140,7 +140,6 @@ class _PlayerWidgetState extends State<PlayerWidget> {
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15),
           child: CustomUtilityOptions(
             player: audioService.audioPlayer,
-            radius: radius,
             color: color,
             iconColor: iconColor,
             isPlaying: _isPlaying,

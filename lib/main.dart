@@ -50,11 +50,13 @@ class _HomePageState extends State<HomePage> {
     const SettingsPage(),
     const SettingsPage(),
   ];
-  void _onItemTapped(int index) {
+void _onItemTapped(int index) {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
     setState(() {
       _selectedIndex = index;
     });
-  }
+  });
+}
 
   @override
   Widget build(BuildContext context) {
