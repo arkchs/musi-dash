@@ -158,7 +158,7 @@ class _SongsPageState extends State<SongsPage>
                               onPressed: () {},
                             ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),

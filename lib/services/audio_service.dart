@@ -91,9 +91,9 @@ class AudioService extends ChangeNotifier {
 
   void setHideMini(bool flag) {
     _hideMini = flag;
-     WidgetsBinding.instance.addPostFrameCallback((_) {
-    notifyListeners();
-  });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();
+    }); //redner this change only after the widget rebuilt is completed
   }
 
   @override
